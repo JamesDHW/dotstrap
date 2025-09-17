@@ -44,7 +44,23 @@ On repeat runs:
 Coming soon:
 - Run each `postinstall.d` script once (idempotent)
 
+## Warning: do not commit secrets
+
+It's essential for your security that you don't publish any:
+- API keys or secrets
+- Config that may reveal that you are using vulnerable software
+
+**Example:**
+
+It's easier to commit secrets by mistake than you expect. 
+
+Let's take your `zsh` history as an example. In this configuration, your `$ZDOTDIR` is inside `~/.config/`, which is part of you `dotstrap` profile, and may be committed and pushed to GitHub. The way that `zsh` stores command history is with a file stored inside `$ZDOTDIR/.zsh_history` - if you run a command in your terminal (`curl 'https://github.com/...' -H 'x-authorization: Bearer <SUPER-SECRET-TOKEN>'`) and do not have `.zsh_history` in your `.gitignore`, then `zsh` will add this `<SUPER-SECRET-TOKEN>` to your history file, which you then commit and publish to a public repo.
+
+**For this reason, I would recommend that you store your `dotstrap` profile in a private git repo!**
+
 ## The `dotstrap` spec
+
+`dotstrap` assumes you are using `zsh`, but could easily be tweaked for those using `fish` (etc.).
 
 A compliant config repo:
 
@@ -69,7 +85,7 @@ Example:
     Brewfile
 ```
 
-Example repo: https://github.com/JamesDHW/dotstrap-profile
+Example repo: https://github.com/JamesDHW/dotstrap-profile-example
 
 ## How it works
 
